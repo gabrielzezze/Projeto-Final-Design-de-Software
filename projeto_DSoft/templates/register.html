@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<title>PyBOX</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+body{background-color: #E1E1E1;}
+.w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+.fa-anchor,.fa-coffee {font-size:200px}
+.foto{height: 350px;width: 300px;margin-top: 100px;}
+.labelForm{font-size: 30px}
+.caixa{background-color:#ECECEC; height:25px;margin-left: 2px;}
+.botao_submit{border-radius: 4px;}
+.mensagem-erro{
+  margin-left: 10px;
+  border-radius: 8px;
+  background-color:#FF6F6F;
+  font-size: 35px;
+  width: 500px;
+  display: inline;
+  padding: 6px;
+}
+.mensagem{
+  background-color: #B2FFB0;
+  border-radius: 8px;
+  border-color: #78F975;
+  width: 500px;
+  margin-left: 10px;
+  padding: 6px;
+  font-size: 35px;
+}
+.caixanome{background-color:#ECECEC; height:25px;margin-left: 56px;}
+.caixaemail{background-color:#ECECEC; height:25px;margin-left: 64px;}
+.caixasenha{background-color:#ECECEC; height:25px;margin-left: 57px;}
+</style>
+<body>
+  {% if session.logged_in %}
+  <div class="w3-top">
+    <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+      <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+      <a href="/" class="w3-bar-item w3-button w3-padding-large w3-white">PyBOX</a>
+      <a href="/" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Home</a>
+      <a href="/about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Sobre nós</a>
+      <a href="/menu" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Menu</a>
+      <a href="/upload" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Upload</a>
+      <a style="float:right;"href="/logout" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Log Out</a>
+      <a style="float:right;"href="/minha-conta" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Minha Conta</a>
+      <a style="float:right;"href="/posts-privados" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Posts Privados</a>
+    </div>
+
+    <!-- Navbar on small screens -->
+    <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+      <a href="/" class="w3-bar-item w3-button w3-padding-large">Home</a>
+      <a href="/about" class="w3-bar-item w3-button w3-padding-large">Sobre Nòs</a>
+      <a href="/minha-conta" class="w3-bar-item w3-button w3-padding-large">Minha conta</a>
+      <a href="/logout" class="w3-bar-item w3-button w3-padding-large">Log Out</a>
+    </div>
+  </div>
+  {% else %}
+  <!-- Navbar -->
+  <div class="w3-top">
+    <div class="w3-bar w3-red w3-card w3-left-align w3-large">
+      <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+      <a href="/" class="w3-bar-item w3-button w3-padding-large w3-white">PyBOX</a>
+      <a href="/" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Home</a>
+      <a href="/about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Sobre nós</a>
+      <a href="/login" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Log in</a>
+      <a href="/register" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Cadastre-se</a>
+    </div>
+
+    <!-- Navbar on small screens -->
+    <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+      <a href="/" class="w3-bar-item w3-button w3-padding-large">Home</a>
+      <a href="/about" class="w3-bar-item w3-button w3-padding-large">Sobre Nós</a>
+      <a href="/login" class="w3-bar-item w3-button w3-padding-large">Log In</a>
+      <a href="/register" class="w3-bar-item w3-button w3-padding-large">Cadastre-se</a>
+    </div>
+  </div>
+{% endif %}
+<!--First Grid-->
+<div class="w3-row-padding w3-padding-64 w3-container">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      {% if mensagem_erro %}
+      <h4 class="mensagem-erro">{{mensagem_erro}}</h4>
+      {% elif mensagem_sucesso %}
+      <h4 class = "mensagem">{{mensagem_sucesso}}</h4>
+      {% endif %}
+      <h1 style="font-size: 50px;"class="header-register">Cadastre-se!</h1>
+      <p style="font-size: 30px;"class="texto-login">Cadastre-se para acessar os documentos!</p>
+      <form name="myform" class="form-login" method="post" onsubmit="alert(mensagem_erro)">
+        <label class="labelForm">Nome:</label>
+        <input class="caixanome"  name="Name" type="text" id="name"/>
+        <br>
+        <br>
+        <label class="labelForm">Username:</label>
+        <input class="caixa"  name="userName" type="text" id="username"/>
+        <br>
+        <br>
+        <label class="labelForm">Email:</label>
+        <input class="caixaemail"  name="eMail" type="email" id="email"/>
+        <br>
+        <br>
+        <label class="labelForm">Senha:</label>
+        <input class="caixasenha" name="passWord" type="password" id="password"/>
+        <br>
+        <br>
+        <label class="labelForm">Confirme a senha:</label>
+        <input class="caixa"  name="confPassword" type="password" id="confpassword"/>
+        <br>
+        <br>
+        <input class="botao_submit" type="submit" value="Cadastre-se!"/>
+      </form>
+      <p class="w3-text-grey"></p>
+    </div>
+    <div class="w3-third w3-center">
+      <img class="foto" src="static/images/imageform.png">
+    </div>
+    <div class="w3-third w3-center">
+    </div>
+  </div>
+</div>
+<!-- Footer -->
+<footer style="background-color: white;" class="w3-container w3-padding-64 w3-center w3-opacity">
+  <div class="w3-xlarge w3-padding-32">
+    <i class="fa fa-facebook-official w3-hover-opacity"></i>
+    <i class="fa fa-instagram w3-hover-opacity"></i>
+    <!--<i class="fa fa-snapchat w3-hover-opacity"></i>-->
+    <!--<i class="fa fa-pinterest-p w3-hover-opacity"></i>-->
+    <i class="fa fa-twitter w3-hover-opacity"></i>
+    <!--<i class="fa fa-linkedin w3-hover-opacity"></i>-->
+ </div>
+ <p>Powered by Python Flask</p>
+</footer>
+
+
+
+
+<script>
+// Used to toggle the menu on small screens when clicking on the menu button
+function myFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
+
+</body>
+</html>
